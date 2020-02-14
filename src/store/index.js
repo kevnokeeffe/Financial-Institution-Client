@@ -1,15 +1,27 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
+import * as auth from "../services/AuthService";
+// import Auth from '../../warehouse/Auth'
+Vue.use(Vuex);
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
-  },
+    isLoggedIn: false,
+    apiUrl: `http://localhost:${process.env.VUE_APP_PORT}`
+    },
   mutations: {
+    authenticate(state) {
+      state.isLoggedIn = auth.isLoggedIn();
+    }
   },
   actions: {
+    authenticate(context) {
+      context.commit("authenticate");
+    }
   },
-  modules: {
+  modules:{
+    //Auth
   }
-})
+});
+
+export default store;

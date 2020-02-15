@@ -9,7 +9,7 @@ export function isLoggedIn() {
 
 export function login(user) {
   return http()
-    .post("api/user/login-access", user)
+    .post("api/user/login-refresh", user)
     .then(res => {
       if (res) {
         setToken(res.data.token);

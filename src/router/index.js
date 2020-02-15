@@ -50,14 +50,14 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'
-      ),
-    beforeEnter: (to, from, next) => {
-      if (auth.isLoggedIn()) {
-        next()
-      } else {
-        next('/login')
-      }
-    }
+       ),
+    // beforeEnter: (to, from, next) => {
+    //   if (auth.isLoggedIn()) {
+    //     next()
+    //   } else {
+    //     next('/login')
+    //   }
+    // }
   }
 ]
 

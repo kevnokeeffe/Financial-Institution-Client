@@ -27,6 +27,18 @@ export function logout() {
   store.dispatch("authenticate");
 }
 
+export function getUserId() {
+  const token = decodeToken();
+  if (!token) {
+    return null;
+  }
+  try {
+    return token.id;
+  } catch (error) {
+    return null;
+  }
+}
+
 function setToken(token) {
   localStorage.setItem("token", token);
   store.dispatch("authenticate");

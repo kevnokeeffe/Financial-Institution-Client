@@ -7,11 +7,17 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     isLoggedIn: false,
+    userId: null,
     apiUrl: `http://localhost:${process.env.VUE_APP_PORT}`
     },
   mutations: {
     authenticate(state) {
       state.isLoggedIn = auth.isLoggedIn();
+      if (state.isLoggedIn) {
+        state.userId = auth.getUserId();
+      } else {
+        state.userId = null;
+      }
     }
   },
   actions: {

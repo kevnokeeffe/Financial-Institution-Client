@@ -7,13 +7,43 @@
         <b-form class="custom-form" @submit.prevent="onSubmitCurrent">
           <b-form-group
             id="input-balance"
-            label="Balance:"
+            label="Details:"
             label-for="cbalance"
           >
             <b-form-input
               id="cbalance"
               v-model.trim="$v.form.cbalance.$model"
               placeholder="Enter balance"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.accountName.$model"
+              placeholder="Enter account name"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.accountId.$model"
+              placeholder="Enter account ID"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.accountType.$model"
+              placeholder="Enter account type"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.overDraft.$model"
+              placeholder="Enter overdraft"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.currency.$model"
+              placeholder="Enter currency"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.iban.$model"
+              placeholder="Enter iban"
             ></b-form-input>
           </b-form-group>
           <b-button type="submit" class="btn btn-secondary">Submit</b-button>
@@ -58,19 +88,19 @@
             v-model.trim="$v.form.fiAddress.$model"
             placeholder="Enter address"
           ></b-form-input> -->
-         
+
             <b-form-input
               id="fiInput"
               v-model.trim="$v.form.fiNumber.$model"
               placeholder="Enter number"
             ></b-form-input>
-     
+
             <b-form-input
               id="fiInput"
               v-model.trim="$v.form.fiEircode.$model"
               placeholder="Enter eircode"
             ></b-form-input>
-     
+
             <b-form-input
               id="fiInput"
               v-model.trim="$v.form.fiStreet.$model"
@@ -119,7 +149,14 @@ export default {
         fiStreet: '',
         fiCity: '',
         fiCountry: '',
-        fiType:'',
+        fiType: '',
+        accountName: '',
+        accountId: null,
+        userId: null,
+        accountType: '',
+        overDraft: '',
+        currency: '',
+        iban: '',
         submitStatus: null
       },
       show: true
@@ -136,31 +173,54 @@ export default {
       fiName: {
         required
       },
-        fiNumber: {
+      fiNumber: {
         required
       },
-        fiEircode: {
+      fiEircode: {
         required
       },
-        fiStreet: {
+      fiStreet: {
         required
       },
-        fiCity: {
+      fiCity: {
         required
       },
-        fiCountry: {
+      fiCountry: {
         required
       },
-      fiType:{
+      fiType: {
         required
-      }
+      },
+      accountName: {
+        required
+      },
+        accountId:{
+        required
+      },
+        accountType: {
+        required
+      },
+        overDraft: {
+        required
+      },
+        currency: {
+        required
+      },
+        iban: {
+        required
+      },
     }
   },
 
   methods: {
     onSubmitCurrent: async function() {
       const cAccount = {
-        balance: this.form.cbalance
+        balance: this.form.cbalance,
+        userId: this.$store.state.userId,
+        accountType: this.form.accountType,
+        overDraft: this.form.overDraft,
+        currency: this.form.currency,
+        iban: this.form.iban,
       }
       const accountPromise = await accountService.createCurrentAccount(cAccount)
       await Promise.all([accountPromise])
@@ -219,7 +279,7 @@ export default {
   overflow: auto;
 }
 
-#fiInput{
+#fiInput {
   margin: 5px;
 }
 .account-card {

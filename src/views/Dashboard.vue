@@ -10,8 +10,13 @@
             label="Details:"
             label-for="cbalance"
           >
+          <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.fiNameA.$model"
+              placeholder="Enter FI Name"
+            ></b-form-input>
             <b-form-input
-              id="cbalance"
+              id="fiInput"
               v-model.trim="$v.form.cbalance.$model"
               placeholder="Enter balance"
             ></b-form-input>
@@ -142,6 +147,7 @@ export default {
     return {
       form: {
         cbalance: '',
+        userId: this.$store.state.userId,
         sbalance: '',
         fiName: '',
         fiNumber: '',
@@ -151,8 +157,6 @@ export default {
         fiCountry: '',
         fiType: '',
         accountName: '',
-        accountId: null,
-        userId: null,
         accountType: '',
         overDraft: '',
         currency: '',
@@ -171,6 +175,9 @@ export default {
         required
       },
       fiName: {
+        required
+      },
+      fiNameA: {
         required
       },
       fiNumber: {
@@ -215,8 +222,9 @@ export default {
   methods: {
     onSubmitCurrent: async function() {
       const cAccount = {
+        fiName: this.form.fiNameA,
         balance: this.form.cbalance,
-        userId: this.$store.state.userId,
+        userId: this.form.userId,
         accountType: this.form.accountType,
         overDraft: this.form.overDraft,
         currency: this.form.currency,

@@ -12,7 +12,7 @@
           >
           <b-form-input
               id="fiInput"
-              v-model.trim="$v.form.fiNameA.$model"
+              v-model.trim="$v.form.fiName.$model"
               placeholder="Enter FI Name"
             ></b-form-input>
             <b-form-input
@@ -51,10 +51,14 @@
               placeholder="Enter iban"
             ></b-form-input>
           </b-form-group>
+          <b-button type="button" class="btn btn-secondary" @click="onReset2()" >reset</b-button>
           <b-button type="submit" class="btn btn-secondary">Submit</b-button>
         </b-form>
       </b-card>
     </div>
+    <b-card class="mt-3" header="Form Data Result">
+      <pre class="m-0">{{ form }}</pre>
+    </b-card>
     <div>
       <b-card class="account-card">
         <h2>Savings Account</h2>
@@ -64,13 +68,49 @@
             label="Balance:"
             label-for="sbalance"
           >
+             <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.fiName.$model"
+              placeholder="Enter FI Name"
+            ></b-form-input>
             <b-form-input
-              id="sbalance"
+              id="fiInput"
               v-model.trim="$v.form.sbalance.$model"
               placeholder="Enter balance"
             ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.accountName.$model"
+              placeholder="Enter account name"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.accountId.$model"
+              placeholder="Enter account ID"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.accountType.$model"
+              placeholder="Enter account type"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.overDraft.$model"
+              placeholder="Enter overdraft"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.currency.$model"
+              placeholder="Enter currency"
+            ></b-form-input>
+            <b-form-input
+              id="fiInput"
+              v-model.trim="$v.form.iban.$model"
+              placeholder="Enter iban"
+            ></b-form-input>
           </b-form-group>
           <b-button type="submit" class="btn btn-secondary">Submit</b-button>
+          <b-button type="button" class="btn btn-secondary" @click="onResetS()" >reset</b-button>
         </b-form>
       </b-card>
     </div>
@@ -88,11 +128,6 @@
               v-model.trim="$v.form.fiName.$model"
               placeholder="Enter name"
             ></b-form-input>
-            <!-- <b-form-input
-            id="fiAddress"
-            v-model.trim="$v.form.fiAddress.$model"
-            placeholder="Enter address"
-          ></b-form-input> -->
 
             <b-form-input
               id="fiInput"
@@ -128,7 +163,7 @@
               placeholder="Enter fi type"
             ></b-form-input>
           </b-form-group>
-
+          <b-button type="button" @click="onResetFI()" class="btn btn-secondary">Reset</b-button>
           <b-button type="submit" class="btn btn-secondary">Submit</b-button>
         </b-form>
       </b-card>
@@ -148,6 +183,7 @@ export default {
       form: {
         cbalance: '',
         userId: this.$store.state.userId,
+        bankId: this.$store.state.bankId,
         sbalance: '',
         fiName: '',
         fiNumber: '',
@@ -159,6 +195,8 @@ export default {
         accountName: '',
         accountType: '',
         overDraft: '',
+        accountId:'',
+        accountNumber:'',
         currency: '',
         iban: '',
         submitStatus: null
@@ -222,13 +260,17 @@ export default {
   methods: {
     onSubmitCurrent: async function() {
       const cAccount = {
-        fiName: this.form.fiNameA,
+        fiName: this.form.fiName,
+        accountName: this.form.accountName,
+        accountNumber: this.form.accountNumber,
+        accountId:this.form.accountId,
         balance: this.form.cbalance,
         userId: this.form.userId,
         accountType: this.form.accountType,
         overDraft: this.form.overDraft,
         currency: this.form.currency,
         iban: this.form.iban,
+        bankId:this.$store.state.bankId
       }
       const accountPromise = await accountService.createCurrentAccount(cAccount)
       await Promise.all([accountPromise])
@@ -237,7 +279,17 @@ export default {
 
     onSubmitSavings: async function() {
       const sAccount = {
-        balance: this.form.sbalance
+        balance: this.form.sbalance,
+        fiName: this.form.fiName,
+        userId: this.form.userId,
+        accountId: this.form.accountId,
+        accountName: this.form.accountName,
+        accountType: this.form.accountType,
+        accountNumber: this.form.accountNumber,
+        currency: this.form.currency,
+        iban: this.form.iban,
+        bankId:this.$store.state.bankId
+
       }
       const accountPromise = await accountService.createSavingsAccount(sAccount)
       await Promise.all([accountPromise])
@@ -256,7 +308,57 @@ export default {
       const accountPromise = await fiService.createFi(fi)
       await Promise.all([accountPromise])
       await this.$router.push({ path: '/' })
-    }
+    },
+    onReset2() {
+      // Reset our form values
+      this.form.cbalance = '8000'
+      this.form.fiName = 'Bank of WIT'
+      this.form.userId = this.$store.state.userId
+      this.form.accountType = 'Current'
+      this.form.overDraft = '500'
+      this.form.currency = 'Euro'
+      this.form.iban = "BOWIT9871088"
+      this.form.accountName = "My super saver"
+      this.form.accountNumber= "9871088"
+      this.form.accountId="9871088"
+      this.$store.state.bankId,
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
+    },
+    onResetS() {
+      // Reset our form values
+      this.form.sbalance = '19000'
+      this.form.fiNameA = 'Bank of WIT'
+      this.form.userId = this.$store.state.userId
+      this.form.accountType = 'Savings'
+      this.form.overDraft = 'None'
+      this.form.currency = 'Euro'
+      this.form.iban = "BOWIT9871089"
+      this.form.accountName = "Kev's Spender"
+      this.form.accountNumber= "9871089"
+      this.form.accountId= "9871089"
+      this.form.bankId= this.$store.state.bankId,
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
+    },
+    onResetFI() {
+      // Reset our form values
+      this.form.fiName="Bank"
+      this.form.fiNumber="12"
+      this.form.fiEircode="X9 19U8G"
+      this.form.fiStreet="Patrick's Street"
+      this.form.fiCity="Cork"
+      this.form.fiCountry="Ireland"
+      this.form.fiType="Bank"
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
+    },
   }
 }
 </script>

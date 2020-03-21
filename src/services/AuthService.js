@@ -12,7 +12,10 @@ export function login(user) {
     .post("api/user/login-refresh", user)
     .then(res => {
       if (res) {
+        // eslint-disable-next-line no-console
+        console.log(res.data.token)
         setToken(res.data.token);
+      
       }
     }).catch(err => {
       if (err) {
@@ -33,7 +36,25 @@ export function getUserId() {
     return null;
   }
   try {
+    // eslint-disable-next-line no-console
+    console.log(token.id);
     return token.id;
+    
+  } catch (error) {
+    return null;
+  }
+}
+
+export function getBankId() {
+  const token = decodeToken();
+  if (!token) {
+    return null;
+  }
+  try {
+    // eslint-disable-next-line no-console
+    console.log(token.financialInstitutionID);
+    return token.financialInstitutionID;
+    
   } catch (error) {
     return null;
   }

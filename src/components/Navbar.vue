@@ -9,7 +9,6 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item
-            v-if="$store.state.isLoggedIn"
             class="b-nav-item"
             to="/dashboard"
             >Dashboard</b-nav-item

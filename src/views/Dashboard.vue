@@ -318,7 +318,7 @@ export default {
       this.form.overDraft = '500'
       this.form.currency = 'Euro'
       this.form.iban = "BOWIT9871088"
-      this.form.accountName = "My super saver"
+      this.form.accountName = "Kev's Spender"
       this.form.accountNumber= "9871088"
       this.form.accountId="9871088"
       this.$store.state.bankId,
@@ -336,7 +336,7 @@ export default {
       this.form.overDraft = 'None'
       this.form.currency = 'Euro'
       this.form.iban = "BOWIT9871089"
-      this.form.accountName = "Kev's Spender"
+      this.form.accountName = "My super saver"
       this.form.accountNumber= "9871089"
       this.form.accountId= "9871089"
       this.form.bankId= this.$store.state.bankId,
